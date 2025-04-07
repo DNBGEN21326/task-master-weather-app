@@ -1,9 +1,9 @@
 
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { removeTask, toggleTaskCompletion, updateTaskPriority, type Task, type Priority } from '@/store/slices/taskSlice';
 import { fetchWeatherByLocation } from '@/store/slices/weatherSlice';
-import { RootState } from '@/store';
+import { RootState, AppDispatch } from '@/store';
 import { Button } from '@/components/ui/button';
 import { Trash2, CheckSquare, Square, Cloud } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -22,13 +22,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useDispatch } from 'react-redux';
 
 interface TaskItemProps {
   task: Task;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const dispatch = useDispatch();
+  // Use the correctly typed dispatch function
+  const dispatch = useDispatch<AppDispatch>();
   const weatherData = useSelector((state: RootState) => state.weather.data[task.location || '']);
   const weatherLoading = useSelector((state: RootState) => state.weather.isLoading);
 
